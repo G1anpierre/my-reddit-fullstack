@@ -11,4 +11,15 @@ export const {
 } = NextAuth({
   providers: [GitHub],
   adapter: PrismaAdapter(prismaDB),
+  callbacks: {
+    async session({session, user}) {
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          id: user.id,
+        },
+      }
+    },
+  },
 })

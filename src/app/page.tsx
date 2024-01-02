@@ -1,21 +1,21 @@
-import {Button} from '@nextui-org/button'
-import * as actions from '@/actions'
-import {auth} from '@/auth'
+import {OpenTopicModal} from '@/components/openTopicModal'
+import PostList from '@/components/posts/post-list'
+import {TopicsList} from '@/components/topicsList'
+import {fetchTopPosts} from '@/get-data'
 
 export default async function Home() {
-  const session = await auth()
-  console.log('session :', session)
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      {!session ? (
-        <form action={actions.signIn}>
-          <Button type="submit">Sign In</Button>
-        </form>
-      ) : (
-        <form action={actions.signOut}>
-          <Button type="submit">Sign Out</Button>
-        </form>
-      )}
+    <main>
+      <div className="grid grid-cols-3 mb-4 gap-3">
+        <h1>Top Posts</h1>
+        <div className="flex flex-col gap-4 col-start-3">
+          <OpenTopicModal />
+          <TopicsList />
+        </div>
+        <div className="col-span-2">
+          <PostList fetchData={fetchTopPosts} />
+        </div>
+      </div>
     </main>
   )
 }
