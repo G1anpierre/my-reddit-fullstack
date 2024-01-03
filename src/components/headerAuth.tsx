@@ -16,6 +16,8 @@ import React from 'react'
 export const HeaderAuth = () => {
   const session = useSession()
 
+  if (session.status === 'loading') return null
+
   return (
     <>
       {session.data ? (
