@@ -8,16 +8,12 @@ import {searchSubmit} from '@/actions/search'
 export const InputSearch = () => {
   const searchParams = useSearchParams()
   const term = searchParams.get('term')
-  const inputRef = useRef(null as HTMLInputElement | null)
 
   return (
-    <form action={searchSubmit} className="w-full">
+    <form action={searchSubmit} className="w-[400px]">
       <Input
         label="Search"
         name="term"
-        isClearable
-        ref={inputRef}
-        // onClear={() => handleReset()}
         radius="lg"
         classNames={{
           label: 'text-black/50 dark:text-white/90',

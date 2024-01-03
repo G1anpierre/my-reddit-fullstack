@@ -13,7 +13,7 @@ const TopicPage = ({params}: TopicPageProps) => {
   return (
     <div>
       <div className="grid grid-cols-3 mb-4 gap-3">
-        <h1>Topic - {params.slug}</h1>
+        <h1 className="text-xl mb-2">Topic - {params.slug}</h1>
         <div className="col-start-3">
           <OpenPostModal topic={params.slug} />
         </div>

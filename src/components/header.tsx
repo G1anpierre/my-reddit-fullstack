@@ -6,7 +6,7 @@ import {Suspense} from 'react'
 
 export default function Header() {
   return (
-    <Navbar>
+    <Navbar className="mb-4 py-4">
       <NavbarBrand>
         <Link href="/" className="flex gap-1">
           <span>Logo</span>
