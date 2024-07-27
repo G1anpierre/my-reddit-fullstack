@@ -1,4 +1,3 @@
-import type {Post, User, Topic} from '@prisma/client'
 import type {PostWithData} from '@/get-data'
 import Link from 'next/link'
 import {paths} from '@/path'
