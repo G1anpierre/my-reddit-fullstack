@@ -1,19 +1,20 @@
-import type {PostWithData} from '@/get-data'
-import Link from 'next/link'
-import {paths} from '@/path'
+import type { PostWithData } from "@/get-data";
+import Link from "next/link";
+import { paths } from "@/path";
+import { LikeButton } from "../common/like-button";
 
 interface PostListProps {
-  fetchData: () => Promise<PostWithData[]>
+  fetchData: () => Promise<PostWithData[]>;
 }
 
-export default async function PostList({fetchData}: PostListProps) {
-  const posts = await fetchData()
+export default async function PostList({ fetchData }: PostListProps) {
+  const posts = await fetchData();
 
-  const renderedPosts = posts.map(post => {
-    const topicSlug = post.topic.slug
+  const renderedPosts = posts.map((post) => {
+    const topicSlug = post.topic.slug;
 
     if (!topicSlug) {
-      throw new Error('Need a slug to link to a post')
+      throw new Error("Need a slug to link to a post");
     }
 
     return (
@@ -27,9 +28,10 @@ export default async function PostList({fetchData}: PostListProps) {
             </p>
           </div>
         </Link>
+        <LikeButton post={post} />
       </div>
-    )
-  })
+    );
+  });
 
-  return <div className="space-y-2">{renderedPosts}</div>
+  return <div className="space-y-2">{renderedPosts}</div>;
 }

@@ -1,12 +1,12 @@
-import {Post} from '@prisma/client'
-import {prismaDB} from './database-prisma'
-import {cache} from 'react'
+import { Post } from "@prisma/client";
+import { prismaDB } from "./database-prisma";
+import { cache } from "react";
 
 export type PostWithData = Post & {
-  topic: {slug: string}
-  user: {name: string | null}
-  _count: {comments: number}
-}
+  topic: { slug: string };
+  user: { name: string | null };
+  _count: { comments: number };
+};
 // export type PostWithData = Awaited<ReturnType<typeof fetchPostsBySlug>>[number]
 
 export const fetchPostsBySlug = cache(
@@ -18,44 +18,45 @@ export const fetchPostsBySlug = cache(
         },
       },
       include: {
-        topic: {select: {slug: true}},
-        user: {select: {name: true}},
-        _count: {select: {comments: true}},
+        topic: { select: { slug: true } },
+        user: { select: { name: true } },
+        _count: { select: { comments: true } },
       },
-    })
+    });
 
-    return posts
-  },
-)
+    return posts;
+  }
+);
 
 export const fetchTopPosts = cache((): Promise<PostWithData[]> => {
   const posts = prismaDB.post.findMany({
     orderBy: {
       comments: {
-        _count: 'desc',
+        _count: "desc",
       },
     },
     include: {
-      topic: {select: {slug: true}},
-      user: {select: {name: true}},
-      _count: {select: {comments: true}},
+      topic: { select: { slug: true } },
+      user: { select: { name: true } },
+      _count: { select: { comments: true } },
+      likes: { select: { userId: true } },
     },
     take: 5,
-  })
+  });
 
-  return posts
-})
+  return posts;
+});
 
 export const searchTerms = (term: string) => {
   const results = prismaDB.post.findMany({
     include: {
-      topic: {select: {slug: true}},
-      user: {select: {name: true}},
-      _count: {select: {comments: true}},
+      topic: { select: { slug: true } },
+      user: { select: { name: true } },
+      _count: { select: { comments: true } },
     },
     where: {
-      OR: [{title: {contains: term}}, {content: {contains: term}}],
+      OR: [{ title: { contains: term } }, { content: { contains: term } }],
     },
-  })
-  return results
-}
+  });
+  return results;
+};
