@@ -18,7 +18,7 @@ export default async function PostList({ fetchData }: PostListProps) {
     }
 
     return (
-      <div key={post.id} className="border rounded p-2">
+      <div key={post.id} className="border rounded p-2 flex flex-col gap-2">
         <Link href={paths.postShow(topicSlug, post.id)}>
           <h3 className="text-lg font-bold">{post.title}</h3>
           <div className="flex flex-row gap-8">

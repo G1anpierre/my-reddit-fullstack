@@ -21,6 +21,7 @@ export const fetchPostsBySlug = cache(
         topic: { select: { slug: true } },
         user: { select: { name: true } },
         _count: { select: { comments: true } },
+        likes: { select: { userId: true } },
       },
     });
 

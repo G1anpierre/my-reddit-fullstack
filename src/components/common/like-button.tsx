@@ -26,7 +26,7 @@ export const LikeButton = ({ post }: { post: any }) => {
     },
   };
 
-  const isLiked = post.likes.some(
+  const isLiked = post.likes?.some(
     (like: any) => like.userId === auth.data?.user?.id
   );
 
@@ -72,7 +72,7 @@ export const CountLike = ({ post }: { post: any }) => {
   return (
     <>
       <Button size="sm" onPress={onOpen} type="button">
-        {post.likes.length} Like
+        {post.likes?.length} Like
       </Button>
       <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
         <ModalContent>
