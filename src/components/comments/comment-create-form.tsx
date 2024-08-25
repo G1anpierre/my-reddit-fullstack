@@ -1,38 +1,40 @@
-'use client'
+"use client";
 
-import {useFormState} from 'react-dom'
-import {useEffect, useRef, useState} from 'react'
-import {Textarea, Button} from '@nextui-org/react'
-import * as actions from '@/actions'
-import {SubmitButton} from '../submitButton'
+import { useFormState } from "react-dom";
+import { useEffect, useRef, useState } from "react";
+import { Textarea, Button } from "@nextui-org/react";
+import * as actions from "@/actions";
+import { SubmitButton } from "../submitButton";
 
 interface CommentCreateFormProps {
-  postId: string
-  parentId?: string
-  startOpen?: boolean
+  postId: string;
+  parentId?: string;
+  startOpen?: boolean;
+  children?: React.ReactNode;
 }
 
 export default function CommentCreateForm({
   postId,
   parentId,
   startOpen,
+  children,
 }: CommentCreateFormProps) {
-  const [open, setOpen] = useState(startOpen)
-  const ref = useRef<HTMLFormElement | null>(null)
+  const [open, setOpen] = useState(startOpen);
+  const ref = useRef<HTMLFormElement | null>(null);
   const [formState, action] = useFormState(
-    actions.createComment.bind(null, {postId, parentId}),
-    {errors: {}},
-  )
+    actions.createComment.bind(null, { postId, parentId }),
+    { errors: {} }
+  );
 
   useEffect(() => {
     if (formState.success) {
-      ref.current?.reset()
+      ref.current?.reset();
 
       if (!startOpen) {
-        setOpen(false)
+        setOpen(false);
       }
     }
-  }, [formState, startOpen])
+  }, [formState, startOpen]);
 
   const form = (
     <form action={action} ref={ref}>
@@ -42,26 +44,29 @@ export default function CommentCreateForm({
           label="Reply"
           placeholder="Enter your comment"
           isInvalid={!!formState.errors.content}
-          errorMessage={formState.errors.content?.join(', ')}
+          errorMessage={formState.errors.content?.join(", ")}
         />
 
         {formState.errors._form ? (
           <div className="p-2 bg-red-200 border rounded border-red-400">
-            {formState.errors._form?.join(', ')}
+            {formState.errors._form?.join(", ")}
           </div>
         ) : null}
 
         <SubmitButton>Create Comment</SubmitButton>
       </div>
     </form>
-  )
+  );
 
   return (
     <div>
-      <Button size="sm" variant="light" onClick={() => setOpen(!open)}>
-        Reply
-      </Button>
+      <div className="flex gap-2">
+        <Button size="sm" variant="light" onClick={() => setOpen(!open)}>
+          Reply
+        </Button>
+        {children}
+      </div>
       {open && form}
     </div>
-  )
+  );
 }

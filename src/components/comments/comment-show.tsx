@@ -1,32 +1,34 @@
-import Image from 'next/image'
-import {Button} from '@nextui-org/react'
-import CommentCreateForm from '@/components/comments/comment-create-form'
+"use client";
+import Image from "next/image";
+import CommentCreateForm from "@/components/comments/comment-create-form";
+import { LikeButton } from "../common/like-button";
+import { likeComment } from "@/actions/like-comment";
 
 interface CommentShowProps {
-  commentId: string
-  comments: any[]
+  commentId: string;
+  comments: any[];
 }
 
 // TODO: Get a list of comments
-export default function CommentShow({commentId, comments}: CommentShowProps) {
-  const comment = comments.find(c => c.id === commentId)
+export default function CommentShow({ commentId, comments }: CommentShowProps) {
+  const comment = comments.find((c) => c.id === commentId);
 
   if (!comment) {
-    return null
+    return null;
   }
 
-  const children = comments.filter(c => c.parentId === commentId)
-  const renderedChildren = children.map(child => {
+  const children = comments.filter((c) => c.parentId === commentId);
+  const renderedChildren = children.map((child) => {
     return (
       <CommentShow key={child.id} commentId={child.id} comments={comments} />
-    )
-  })
+    );
+  });
 
   return (
     <div className="p-4 border mt-2 mb-1">
       <div className="flex gap-3">
         <Image
-          src={comment.user.image || ''}
+          src={comment.user.image || ""}
           alt="user image"
           width={40}
           height={40}
@@ -38,10 +40,16 @@ export default function CommentShow({commentId, comments}: CommentShowProps) {
           </p>
           <p className="text-gray-900">{comment.content}</p>
 
-          <CommentCreateForm postId={comment.postId} parentId={comment.id} />
+          <CommentCreateForm postId={comment.postId} parentId={comment.id}>
+            <LikeButton
+              post={comment}
+              actionFn={likeComment.bind(null, { commentId: comment.id })}
+              type="comment"
+            />
+          </CommentCreateForm>
         </div>
       </div>
       <div className="pl-4">{renderedChildren}</div>
     </div>
-  )
+  );
 }

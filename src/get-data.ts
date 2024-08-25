@@ -62,3 +62,19 @@ export const searchTerms = (term: string) => {
   });
   return results;
 };
+
+export const fetchCommentsByPostId = cache(async (postId: string) => {
+  const comments = await prismaDB.comment.findMany({
+    where: {
+      post: {
+        id: postId,
+      },
+    },
+    include: {
+      user: { select: { name: true, image: true } },
+      _count: { select: { likes: true } },
+      likes: { select: { userId: true } },
+    },
+  });
+  return comments;
+});
