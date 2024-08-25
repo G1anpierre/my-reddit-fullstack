@@ -1,5 +1,5 @@
-'use client'
-import React from 'react'
+"use client";
+import React from "react";
 import {
   Modal,
   ModalContent,
@@ -10,10 +10,11 @@ import {
   useDisclosure,
   Input,
   Textarea,
-} from '@nextui-org/react'
-import {createPost} from '@/actions'
-import {useFormState} from 'react-dom'
-import {SubmitButton} from './submitButton'
+} from "@nextui-org/react";
+import { createPost } from "@/actions";
+import { useFormState } from "react-dom";
+// import { useActionState } from "react";
+import { SubmitButton } from "./submitButton";
 
 const initialState = {
   errors: {
@@ -21,14 +22,14 @@ const initialState = {
     content: [],
     _form: [],
   },
-}
+};
 
-export const OpenPostModal = ({topic}: {topic: string}) => {
-  const {isOpen, onOpen, onOpenChange} = useDisclosure()
+export const OpenPostModal = ({ topic }: { topic: string }) => {
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [state, action] = useFormState(
     createPost.bind(null, topic),
-    initialState,
-  )
+    initialState
+  );
   return (
     <>
       <Button onPress={onOpen} fullWidth>
@@ -36,7 +37,7 @@ export const OpenPostModal = ({topic}: {topic: string}) => {
       </Button>
       <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
         <ModalContent>
-          {onClose => (
+          {(onClose) => (
             <>
               <ModalHeader className="flex flex-col gap-1">
                 Create a Post
@@ -48,18 +49,18 @@ export const OpenPostModal = ({topic}: {topic: string}) => {
                     label="Title"
                     name="title"
                     isInvalid={!!state.errors.title?.length}
-                    errorMessage={state.errors?.title?.join(' ')}
+                    errorMessage={state.errors?.title?.join(" ")}
                   />
                   <Textarea
                     label="Content"
                     placeholder="Enter your content"
                     name="content"
                     isInvalid={!!state.errors.content?.length}
-                    errorMessage={state.errors?.content?.join(' ')}
+                    errorMessage={state.errors?.content?.join(" ")}
                   />
                   {!!state.errors._form?.length && (
                     <div className="text-red-500">
-                      {state.errors._form?.join(' ')}
+                      {state.errors._form?.join(" ")}
                     </div>
                   )}
                   <SubmitButton />
@@ -75,5 +76,5 @@ export const OpenPostModal = ({topic}: {topic: string}) => {
         </ModalContent>
       </Modal>
     </>
-  )
-}
+  );
+};
