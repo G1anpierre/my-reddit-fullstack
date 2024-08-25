@@ -14,8 +14,9 @@ import { HeartIcon } from "lucide-react";
 import { useFormState } from "react-dom";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
+import { PostWithDataType } from "@/schema";
 
-export const LikeButton = ({ post }: { post: any }) => {
+export const LikeButton = ({ post }: { post: PostWithDataType }) => {
   const auth = useSession();
 
   const initialState = {
@@ -47,12 +48,13 @@ export const LikeButton = ({ post }: { post: any }) => {
   );
 };
 
-export const CountLike = ({ post }: { post: any }) => {
+export const CountLike = ({ post }: { post: PostWithDataType }) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [usernames, setUsernames] = useState<
     { id: string; user: { name: string; id: string; image: string } }[]
   >([]);
 
+  // Fetch the users who liked the post when the modal is open
   useEffect(() => {
     const getUserLikes = async () => {
       try {

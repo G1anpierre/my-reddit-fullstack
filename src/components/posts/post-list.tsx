@@ -2,9 +2,10 @@ import type { PostWithData } from "@/get-data";
 import Link from "next/link";
 import { paths } from "@/path";
 import { LikeButton } from "../common/like-button";
+import { PostsWithDataType } from "@/schema";
 
 interface PostListProps {
-  fetchData: () => Promise<PostWithData[]>;
+  fetchData: () => Promise<PostsWithDataType>;
 }
 
 export default async function PostList({ fetchData }: PostListProps) {

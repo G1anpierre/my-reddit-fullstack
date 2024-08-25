@@ -1,6 +1,7 @@
 import { Post } from "@prisma/client";
 import { prismaDB } from "./database-prisma";
 import { cache } from "react";
+import { PostsWithDataType } from "./schema";
 
 export type PostWithData = Post & {
   topic: { slug: string };
@@ -10,7 +11,7 @@ export type PostWithData = Post & {
 // export type PostWithData = Awaited<ReturnType<typeof fetchPostsBySlug>>[number]
 
 export const fetchPostsBySlug = cache(
-  (slug: string): Promise<PostWithData[]> => {
+  (slug: string): Promise<PostsWithDataType> => {
     const posts = prismaDB.post.findMany({
       where: {
         topic: {
@@ -29,7 +30,7 @@ export const fetchPostsBySlug = cache(
   }
 );
 
-export const fetchTopPosts = cache((): Promise<PostWithData[]> => {
+export const fetchTopPosts = cache((): Promise<PostsWithDataType> => {
   const posts = prismaDB.post.findMany({
     orderBy: {
       comments: {
